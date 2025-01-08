@@ -10,5 +10,5 @@ jobs:
     steps:
       - name: log-event
         run: |
-          echo "Event type: ${{ github.event.type }}"
-          echo "Event client payload: ${{ github.event.client_payload }}"
+          echo "Event type: ${{ github.event.action }}"
+          echo "Event client payload: ${{ toJson(github.event.client_payload) }}"
