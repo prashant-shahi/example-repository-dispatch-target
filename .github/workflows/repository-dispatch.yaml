@@ -36,7 +36,7 @@ jobs:
             curl_payload="{\"event_type\":\"${{ inputs.event_type }}\"}"
           fi
 
-          echo "payload: ${{ curl_payload }}"
+          echo "payload: ${curl_payload}"
 
           if ! curl -sSfL -X POST -H "Content-Type: application/json" \
             -H "Authorization: Bearer ${{ secrets.REPOSITORY_TOKEN }}" \
