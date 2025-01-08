@@ -41,7 +41,7 @@ jobs:
           if ! curl -sSfL -X POST -H "Content-Type: application/json" \
             -H "Authorization: Bearer ${{ secrets.REPOSITORY_TOKEN }}" \
             -d "${curl_payload}" \
-            "https://api.github.com/repos/${{ inputs.target_repository }}/dispatches" > /dev/null 2>&1; then
+            "https://api.github.com/repos/${{ github.repository_owner }}/${{ inputs.target_repository }}/dispatches" > /dev/null 2>&1; then
             echo "failed to dispatch event"
             exit 1
           fi
