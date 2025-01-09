@@ -9,14 +9,18 @@ jobs:
   error-job:
     runs-on: ubuntu-latest
     continue-on-error: true
+    outputs:
+      error: ${{ steps.error.outputs.error }}
     steps:
-      - name: error
+      - id: error
+        name: error
         run: |
           echo "github.event.type: ${{ github.event.type }}"
           echo "This is an example error"
+          echo "error=true" >> $GITHUB_OUTPUT
           exit 1
   example-job:
-    if: ${{ always() && (needs.error-job.result == 'success' || github.event.action == 'example-dispatch-event') }}
+    if: ${{ always() && (needs.error-job.outputs.error == 'true' || github.event.action == 'example-dispatch-event') }}
     needs: [error-job]
     runs-on: ubuntu-latest
     steps:
