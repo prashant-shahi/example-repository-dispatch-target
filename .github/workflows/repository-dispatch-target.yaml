@@ -5,7 +5,16 @@ on:
     types: [example-dispatch-event]
 
 jobs:
+  error-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: error
+        run: |
+          echo "This is an example error"
+          exit 1
   example-job:
+    if: ${{ always() && github.event.name == 'repository_dispatch' }}
+    needs: [error-job]
     runs-on: ubuntu-latest
     steps:
       - name: log-event
