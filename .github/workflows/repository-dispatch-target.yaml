@@ -10,11 +10,11 @@ jobs:
     steps:
       - name: error
         run: |
-          echo "github.event.name: ${{ github.event.name }}"
+          echo "github.event.type: ${{ github.event.type }}"
           echo "This is an example error"
           exit 1
   example-job:
-    if: ${{ always() && (needs.error-job.result == 'success' || github.event.name == 'repository_dispatch') }}
+    if: ${{ always() && (needs.error-job.result == 'success' || github.event.type == 'repository_dispatch') }}
     needs: [error-job]
     runs-on: ubuntu-latest
     steps:
