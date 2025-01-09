@@ -20,7 +20,7 @@ jobs:
           echo "error=true" >> $GITHUB_OUTPUT
           exit 1
   example-job:
-    if: ${{ always() && (needs.error-job.outputs.error == 'true' || github.event.action == 'example-dispatch-event') }}
+    if: ${{ always() && (needs.error-job.outputs.error != 'true' || github.event.action == 'example-dispatch-event') }}
     needs: [error-job]
     runs-on: ubuntu-latest
     steps:
