@@ -6,22 +6,18 @@ on:
     types: [example-dispatch-event]
 
 jobs:
-  error-job:
+  echo-job:
     runs-on: ubuntu-latest
-    continue-on-error: true
-    outputs:
-      error: ${{ steps.error.outputs.error }}
+    if: ${{ github.event.action != 'example-dispatch-event' }}
     steps:
-      - id: error
-        name: error
+      - id: echo
+        name: echo
         run: |
           echo "github.event.type: ${{ github.event.type }}"
-          echo "This is an example error"
-          echo "error=true" >> $GITHUB_OUTPUT
-          exit 1
+          echo "This is an example job"
   example-job:
-    if: ${{ always() && (needs.error-job.outputs.error != 'true' || github.event.action == 'example-dispatch-event') }}
-    needs: [error-job]
+    if: ${{ always() && (needs.echo-job.result != 'skipped' || github.event.action == 'example-dispatch-event') }}
+    needs: [echo-job]
     runs-on: ubuntu-latest
     steps:
       - name: log-event
