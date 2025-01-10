@@ -15,6 +15,10 @@ jobs:
         run: |
           echo "github.event.type: ${{ github.event.type }}"
           echo "This is an example job"
+          if [ $((RANDOM % 2)) -eq 0 ]; then
+            echo "randomizer failed"
+            exit 1
+          fi
   example-job:
     if: ${{ always() && (needs.echo-job.result != 'skipped' || github.event.action == 'example-dispatch-event') }}
     needs: [echo-job]
